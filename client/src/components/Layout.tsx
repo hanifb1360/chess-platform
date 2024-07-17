@@ -14,6 +14,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <Typography variant='h6' style={{ flexGrow: 1 }}>
             Chess App
           </Typography>
+          <Button color='inherit' component={Link} to='/'>
+            Home
+          </Button>
           <Button color='inherit' component={Link} to='/register'>
             Register
           </Button>

@@ -1,23 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
 import { useMutation } from "@apollo/client";
 import { useDispatch } from "react-redux";
 import { REGISTER_USER } from "../graphql/mutations";
 import { setUser } from "../redux/userSlice";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
+import { useForm, Controller } from "react-hook-form";
+
+interface RegisterFormData {
+  username: string;
+  email: string;
+  password: string;
+}
 
 const Register: React.FC = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFormData>();
   const [register, { data, loading, error }] = useMutation(REGISTER_USER);
   const dispatch = useDispatch();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (formData: RegisterFormData) => {
     try {
-      const result = await register({
-        variables: { username, email, password },
-      });
+      const result = await register({ variables: formData });
       if (result.data) {
         const { user, token } = result.data.register;
         dispatch(
@@ -41,32 +47,71 @@ const Register: React.FC = () => {
         <Typography variant='h4' gutterBottom>
           Register
         </Typography>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            fullWidth
-            label='Username'
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            margin='normal'
-            variant='outlined'
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Controller
+            name='username'
+            control={control}
+            defaultValue=''
+            rules={{ required: "Username is required" }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                fullWidth
+                label='Username'
+                margin='normal'
+                variant='outlined'
+                error={!!errors.username}
+                helperText={errors.username ? errors.username.message : ""}
+              />
+            )}
           />
-          <TextField
-            fullWidth
-            label='Email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            margin='normal'
-            variant='outlined'
-            type='email'
+          <Controller
+            name='email'
+            control={control}
+            defaultValue=''
+            rules={{
+              required: "Email is required",
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                message: "Invalid email address",
+              },
+            }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                fullWidth
+                label='Email'
+                margin='normal'
+                variant='outlined'
+                type='email'
+                error={!!errors.email}
+                helperText={errors.email ? errors.email.message : ""}
+              />
+            )}
           />
-          <TextField
-            fullWidth
-            label='Password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            margin='normal'
-            variant='outlined'
-            type='password'
+          <Controller
+            name='password'
+            control={control}
+            defaultValue=''
+            rules={{
+              required: "Password is required",
+              minLength: {
+                value: 6,
+                message: "Password must be at least 6 characters long",
+              },
+            }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                fullWidth
+                label='Password'
+                margin='normal'
+                variant='outlined'
+                type='password'
+                error={!!errors.password}
+                helperText={errors.password ? errors.password.message : ""}
+              />
+            )}
           />
           <Button
             type='submit'
