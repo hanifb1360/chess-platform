@@ -1,19 +1,21 @@
 import React from "react";
-import { Routes as Switch, Route, Navigate } from "react-router-dom";
-import Register from "./components/Register";
-import Login from "./components/Login";
-import Profile from "./components/Profile";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Home from "./pages/Home";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Profile from "./pages/Profile";
 import Layout from "./components/Layout";
 
-const Routes: React.FC = () => (
+const AppRoutes: React.FC = () => (
   <Layout>
-    <Switch>
+    <Routes>
+      <Route path='/' element={<Home />} />
       <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login />} />
       <Route path='/profile' element={<Profile />} />
-      <Route path='/' element={<Navigate to='/register' replace />} />
-    </Switch>
+      <Route path='*' element={<Navigate to='/' replace />} />
+    </Routes>
   </Layout>
 );
 
-export default Routes;
+export default AppRoutes;

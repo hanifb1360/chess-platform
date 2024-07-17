@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { REGISTER_USER } from "../graphql/mutations";
 import { setUser } from "../redux/userSlice";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
+import { Link } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 
 interface RegisterFormData {
@@ -129,6 +130,11 @@ const Register: React.FC = () => {
             <Typography color='primary'>Registration successful!</Typography>
           )}
         </form>
+        <Box sx={{ mt: 2 }}>
+          <Typography>
+            Already have an account? <Link to='/login'>Login here</Link>
+          </Typography>
+        </Box>
       </Box>
     </Container>
   );

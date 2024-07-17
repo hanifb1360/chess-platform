@@ -1,17 +1,17 @@
 import React from "react";
 import { ApolloProvider } from "@apollo/client";
-import { Provider } from "react-redux";
-import { ThemeProvider } from "@mui/material/styles";
 import client from "./apollo/client";
+import AppRoutes from "./Routes";
+import { Provider } from "react-redux";
 import store from "./redux/store";
+import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
-import Routes from "./Routes";
 
 const App: React.FC = () => (
   <ApolloProvider client={client}>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <Routes />
+        <AppRoutes />
       </ThemeProvider>
     </Provider>
   </ApolloProvider>
