@@ -1,11 +1,19 @@
 import React from "react";
 import { AppBar, Toolbar, Typography, Button } from "@mui/material";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
+import { clearUser } from "../redux/userSlice";
 
 const Navbar: React.FC = () => {
   const user = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(clearUser());
+    navigate("/");
+  };
 
   return (
     <AppBar position='static'>
@@ -20,6 +28,9 @@ const Navbar: React.FC = () => {
           <>
             <Button color='inherit' component={Link} to='/profile'>
               Profile
+            </Button>
+            <Button color='inherit' onClick={handleLogout}>
+              Logout
             </Button>
           </>
         ) : (
