@@ -42,3 +42,13 @@ export const START_GAME = gql`
     }
   }
 `;
+
+export const MAKE_MOVE = gql`
+  mutation MakeMove($gameId: ID!, $move: String!) {
+    makeMove(gameId: $gameId, move: $move) {
+      id
+      fen
+      moves
+    }
+  }
+`;

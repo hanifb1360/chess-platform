@@ -35,7 +35,8 @@ const Login: React.FC = () => {
             token,
           })
         );
-        navigate("/profile"); // Navigate to profile on successful login
+        // Redirect to home page after login
+        navigate("/");
       }
     } catch (err) {
       console.error(err);

@@ -1,19 +1,10 @@
 import { IResolvers } from "@graphql-tools/utils";
-import User, { IUser } from "../models/User";
 import Game from "../models/Game";
 
-interface Context {
-  user?: IUser;
-}
-
-const Query: IResolvers<any, Context> = {
+const Query: IResolvers = {
   Query: {
-    me: async (_, __, { user }) => {
-      if (!user) throw new Error("Not authenticated");
-      return await User.findById(user._id);
-    },
-    game: async (_, { id }) => {
-      return await Game.findById(id).populate("white black");
+    game: async (_, { gameId }) => {
+      return await Game.findById(gameId).populate("white black");
     },
   },
 };

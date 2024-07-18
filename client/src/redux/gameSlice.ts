@@ -1,16 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface GameState {
-  id: string | null;
-  white: string | null;
-  black: string | null;
+  id: string;
+  fen: string;
   moves: string[];
 }
 
 const initialState: GameState = {
-  id: null,
-  white: null,
-  black: null,
+  id: "",
+  fen: "start",
   moves: [],
 };
 
@@ -18,23 +16,17 @@ const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    setGame: (state, action: PayloadAction<GameState>) => {
+    setGameState(state, action: PayloadAction<GameState>) {
       state.id = action.payload.id;
-      state.white = action.payload.white;
-      state.black = action.payload.black;
+      state.fen = action.payload.fen;
       state.moves = action.payload.moves;
     },
-    addMove: (state, action: PayloadAction<string>) => {
-      state.moves.push(action.payload);
-    },
-    clearGame: (state) => {
-      state.id = null;
-      state.white = null;
-      state.black = null;
-      state.moves = [];
+    updateGameState(state, action: PayloadAction<GameState>) {
+      state.fen = action.payload.fen;
+      state.moves = action.payload.moves;
     },
   },
 });
 
-export const { setGame, addMove, clearGame } = gameSlice.actions;
+export const { setGameState, updateGameState } = gameSlice.actions;
 export default gameSlice.reducer;

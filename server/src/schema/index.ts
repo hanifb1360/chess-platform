@@ -11,7 +11,7 @@ const typeDefs = gql`
     id: ID!
     white: User!
     black: User!
-    moves: [String!]!
+    moves: [String]!
   }
 
   type AuthPayload {
@@ -28,6 +28,11 @@ const typeDefs = gql`
     register(username: String!, email: String!, password: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload
     startGame(whiteId: ID!, blackId: ID!): Game
+    makeMove(gameId: ID!, move: String!): Game
+  }
+
+  type Subscription {
+    gameUpdated(gameId: ID!): Game
   }
 `;
 
