@@ -23,13 +23,17 @@ const ChessBoard: React.FC = () => {
   }, [subscriptionData, dispatch]);
 
   const handleMove = async (sourceSquare: string, targetSquare: string) => {
+    const move = `${sourceSquare}${targetSquare}`;
+    console.log("Sending move:", move);
+
     try {
       await makeMove({
         variables: {
           gameId: gameState.id,
-          move: `${sourceSquare}${targetSquare}`,
+          move,
         },
       });
+      console.log("Move successful");
     } catch (error) {
       console.error("Error making move:", error);
     }

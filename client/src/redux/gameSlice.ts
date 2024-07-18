@@ -2,14 +2,18 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface GameState {
   id: string;
-  fen: string;
+  white: string;
+  black: string;
   moves: string[];
+  fen: string;
 }
 
 const initialState: GameState = {
   id: "",
-  fen: "start",
+  white: "",
+  black: "",
   moves: [],
+  fen: "start",
 };
 
 const gameSlice = createSlice({
@@ -17,13 +21,10 @@ const gameSlice = createSlice({
   initialState,
   reducers: {
     setGameState(state, action: PayloadAction<GameState>) {
-      state.id = action.payload.id;
-      state.fen = action.payload.fen;
-      state.moves = action.payload.moves;
+      return action.payload;
     },
     updateGameState(state, action: PayloadAction<GameState>) {
-      state.fen = action.payload.fen;
-      state.moves = action.payload.moves;
+      return { ...state, ...action.payload };
     },
   },
 });

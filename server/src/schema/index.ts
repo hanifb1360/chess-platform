@@ -11,7 +11,8 @@ const typeDefs = gql`
     id: ID!
     white: User!
     black: User!
-    moves: [String]!
+    fen: String!
+    moves: [String!]!
   }
 
   type AuthPayload {
