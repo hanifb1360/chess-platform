@@ -1,9 +1,8 @@
 import { IResolvers } from "@graphql-tools/utils";
 import { registerUser, loginUser } from "../services/auth";
 import Game from "../models/Game";
+import User from "../models/User"; // Ensure this import statement is correct
 import { pubsub, GAME_UPDATED } from "../services/pubsub";
-import User from "../models/User";
-import { Chess } from "chess.js";
 
 const Mutation: IResolvers = {
   Mutation: {
@@ -21,12 +20,7 @@ const Mutation: IResolvers = {
         throw new Error("Invalid user IDs");
       }
 
-      const chess = new Chess();
-      const game = new Game({
-        white: whiteId,
-        black: blackId,
-        fen: chess.fen(), // Initialize with the starting position
-      });
+      const game = new Game({ white: whiteId, black: blackId });
       await game.save();
 
       return game;
@@ -38,19 +32,15 @@ const Mutation: IResolvers = {
         throw new Error("Game not found");
       }
 
-      const chess = new Chess(game.fen); // Initialize with current position
-      const moveResult = chess.move(move);
-      if (!moveResult) {
-        throw new Error("Invalid move");
-      }
+      console.log("Received move:", move);
 
-      game.fen = chess.fen(); // Update the FEN
       game.moves.push(move);
       await game.save();
 
-      pubsub.publish(GAME_UPDATED, { gameUpdated: game });
+      const updatedGame = await Game.findById(gameId);
+      pubsub.publish(GAME_UPDATED, { gameUpdated: updatedGame });
 
-      return game;
+      return updatedGame;
     },
   },
 };

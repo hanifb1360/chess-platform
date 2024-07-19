@@ -11,14 +11,22 @@ const initialState: UserState = {
   id: null,
   username: null,
   email: null,
-  token: null,
+  token: localStorage.getItem("token") || null,
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<UserState>) => {
+    setUser: (
+      state,
+      action: PayloadAction<{
+        id: string;
+        username: string;
+        email: string;
+        token: string;
+      }>
+    ) => {
       state.id = action.payload.id;
       state.username = action.payload.username;
       state.email = action.payload.email;
@@ -29,6 +37,7 @@ const userSlice = createSlice({
       state.username = null;
       state.email = null;
       state.token = null;
+      localStorage.removeItem("token");
     },
   },
 });

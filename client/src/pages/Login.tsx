@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { LOGIN_USER } from "../graphql/mutations";
 import { setUser } from "../redux/userSlice";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 
 interface LoginFormData {
@@ -20,7 +20,6 @@ const Login: React.FC = () => {
   } = useForm<LoginFormData>();
   const [login, { data, loading, error }] = useMutation(LOGIN_USER);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const onSubmit = async (formData: LoginFormData) => {
     try {
@@ -35,8 +34,8 @@ const Login: React.FC = () => {
             token,
           })
         );
-        // Redirect to home page after login
-        navigate("/");
+        localStorage.setItem("token", token); // Save token to local storage
+        // Handle successful login (e.g., store token, redirect)
       }
     } catch (err) {
       console.error(err);
