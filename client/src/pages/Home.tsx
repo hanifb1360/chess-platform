@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
 import ChessBoard from "../components/ChessBoard";
@@ -13,30 +13,30 @@ const Home: React.FC = () => {
   const dispatch = useDispatch();
   const [startGame, { error: startGameError }] = useMutation(START_GAME);
 
-  useEffect(() => {
-    const initializeGame = async () => {
-      if (user.token && user.id && !gameState.id) {
-        try {
-          const { data } = await startGame({
-            variables: {
-              whiteId: user.id, // Assuming logged-in user is white player
-              blackId: "someBlackPlayerId", // Replace with actual black player ID
-            },
-          });
-          console.log("startGame response:", data);
-          if (data && data.startGame) {
-            dispatch(setGameState(data.startGame));
-          } else {
-            console.error("Failed to start game: No data returned");
-          }
-        } catch (error) {
-          console.error("Error starting game:", error);
+  const initializeGame = useCallback(async () => {
+    if (user.token && user.id && !gameState.id) {
+      try {
+        const { data } = await startGame({
+          variables: {
+            whiteId: user.id, // Assuming logged-in user is white player
+            blackId: "someBlackPlayerId", // Replace with actual black player ID
+          },
+        });
+        console.log("startGame response:", data);
+        if (data && data.startGame) {
+          dispatch(setGameState(data.startGame));
+        } else {
+          console.error("Failed to start game: No data returned");
         }
+      } catch (error) {
+        console.error("Error starting game:", error);
       }
-    };
-
-    initializeGame();
+    }
   }, [user.token, user.id, gameState.id, startGame, dispatch]);
+
+  useEffect(() => {
+    initializeGame();
+  }, [initializeGame]);
 
   useEffect(() => {
     if (startGameError) {
