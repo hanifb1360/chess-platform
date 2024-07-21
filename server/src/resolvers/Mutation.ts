@@ -33,12 +33,14 @@ const Mutation: IResolvers = {
       }
 
       console.log("Received move:", move);
+      // Validate and process the move
 
-      game.moves.push(move);
-      await game.save();
+      game.moves.push(move); // Ensure the move is valid
+      await game.save(); // It ensures that all modifications to the game object, such as the new move, are saved to the database.
 
-      const updatedGame = await Game.findById(gameId);
+      const updatedGame = await game.save();
       pubsub.publish(GAME_UPDATED, { gameUpdated: updatedGame });
+      //to keep all clients synced with the latest game progress, notify all subscribers about the updated game state
 
       return updatedGame;
     },
