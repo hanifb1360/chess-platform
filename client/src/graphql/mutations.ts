@@ -39,6 +39,7 @@ export const START_GAME = gql`
         username
       }
       moves
+      fen
     }
   }
 `;

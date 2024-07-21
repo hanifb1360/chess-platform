@@ -1,11 +1,48 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
 import ChessBoard from "../components/ChessBoard";
 import { Typography, Container, Box } from "@mui/material";
+import { useMutation } from "@apollo/client";
+import { START_GAME } from "../graphql/mutations";
+import { setGameState } from "../redux/gameSlice";
 
 const Home: React.FC = () => {
   const user = useSelector((state: RootState) => state.user);
+  const gameState = useSelector((state: RootState) => state.game);
+  const dispatch = useDispatch();
+  const [startGame, { error: startGameError }] = useMutation(START_GAME);
+
+  useEffect(() => {
+    const initializeGame = async () => {
+      if (user.token && user.id && !gameState.id) {
+        try {
+          const { data } = await startGame({
+            variables: {
+              whiteId: user.id, // Assuming logged-in user is white player
+              blackId: "someBlackPlayerId", // Replace with actual black player ID
+            },
+          });
+          console.log("startGame response:", data);
+          if (data && data.startGame) {
+            dispatch(setGameState(data.startGame));
+          } else {
+            console.error("Failed to start game: No data returned");
+          }
+        } catch (error) {
+          console.error("Error starting game:", error);
+        }
+      }
+    };
+
+    initializeGame();
+  }, [user.token, user.id, gameState.id, startGame, dispatch]);
+
+  useEffect(() => {
+    if (startGameError) {
+      console.error("GraphQL Error starting game:", startGameError);
+    }
+  }, [startGameError]);
 
   return (
     <Container>

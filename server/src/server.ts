@@ -4,7 +4,7 @@ import schema from "./graphql";
 import connectDB from "./config/db";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import User, { IUser } from "./models/User";
+import User from "./models/User";
 
 dotenv.config();
 

@@ -11,6 +11,10 @@ const ChessBoard: React.FC = () => {
   const dispatch = useDispatch();
   const gameState = useSelector((state: RootState) => state.game);
 
+  useEffect(() => {
+    console.log("Current gameState:", gameState); // Debugging line
+  }, [gameState]);
+
   const [makeMove] = useMutation(MAKE_MOVE);
   const { data: subscriptionData } = useSubscription(GAME_UPDATED, {
     variables: { gameId: gameState.id },
@@ -23,8 +27,14 @@ const ChessBoard: React.FC = () => {
   }, [subscriptionData, dispatch]);
 
   const handleMove = async (sourceSquare: string, targetSquare: string) => {
+    console.log("handleMove called with:", sourceSquare, targetSquare);
     const move = `${sourceSquare}${targetSquare}`;
     console.log("Sending move:", move);
+
+    if (!gameState.id) {
+      console.error("Error: gameId is missing");
+      return; // Prevent the mutation call if gameId is invalid
+    }
 
     try {
       await makeMove({
@@ -42,9 +52,10 @@ const ChessBoard: React.FC = () => {
   return (
     <Chessboard
       position={gameState.fen}
-      onDrop={({ sourceSquare, targetSquare }) =>
-        handleMove(sourceSquare, targetSquare)
-      }
+      onDrop={({ sourceSquare, targetSquare }) => {
+        console.log("onDrop event:", sourceSquare, targetSquare);
+        handleMove(sourceSquare, targetSquare);
+      }}
     />
   );
 };
