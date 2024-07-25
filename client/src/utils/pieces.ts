@@ -1,18 +1,18 @@
 import React from "react";
 
 const pieceToImage: Record<string, string> = {
-  wP: "/src/images/wP.svg",
-  wR: "/src/images/wR.svg",
-  wN: "/src/images/wN.svg",
-  wB: "/src/images/wB.svg",
-  wQ: "/src/images/wQ.svg",
-  wK: "/src/images/wK.svg",
-  bP: "/src/images/bP.svg",
-  bR: "/src/images/bR.svg",
-  bN: "/src/images/bN.svg",
-  bB: "/src/images/bB.svg",
-  bQ: "/src/images/bQ.svg",
-  bK: "/src/images/bK.svg",
+  wP: "/images/wP.png",
+  wR: "/images/wR.png",
+  wN: "/images/wN.png",
+  wB: "/images/wB.png",
+  wQ: "/images/wQ.png",
+  wK: "/images/wK.png",
+  bP: "/images/bP.png",
+  bR: "/images/bR.png",
+  bN: "/images/bN.png",
+  bB: "/images/bB.png",
+  bQ: "/images/bQ.png",
+  bK: "/images/bK.png",
 };
 
 const customPieces: Record<

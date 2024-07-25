@@ -1,6 +1,6 @@
+import { createGame, makeMove } from "../services/gameService"; // Import createGame and makeMove
 import { IResolvers } from "@graphql-tools/utils";
 import { registerUser, loginUser } from "../services/auth";
-import { createGame, makeMove } from "../services/gameService"; // Import game service
 
 const Mutation: IResolvers = {
   Mutation: {
@@ -11,10 +11,10 @@ const Mutation: IResolvers = {
       return await loginUser(email, password);
     },
     startGame: async (_, { whiteId, blackId }) => {
-      return await createGame(whiteId, blackId);
+      return await createGame(whiteId, blackId); // Ensure the createGame function is used here
     },
     makeMove: async (_, { gameId, move }) => {
-      return await makeMove(gameId, move);
+      return await makeMove(gameId, move); // Ensure the makeMove function is used here
     },
   },
 };
