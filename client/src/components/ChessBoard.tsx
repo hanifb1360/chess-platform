@@ -53,6 +53,9 @@ const ChessBoard: React.FC = () => {
     return true;
   };
 
+  console.log("Board state:", boardState);
+  console.log("Custom pieces:", customPieces);
+
   return (
     <div>
       <div>Current Turn: {engine.getCurrentTurn()}</div>

@@ -1,18 +1,30 @@
 import React from "react";
+import wP from "../assets/images/wP.png";
+import wR from "../assets/images/wR.png";
+import wN from "../assets/images/wN.png";
+import wB from "../assets/images/wB.png";
+import wQ from "../assets/images/wQ.png";
+import wK from "../assets/images/wK.png";
+import bP from "../assets/images/bP.png";
+import bR from "../assets/images/bR.png";
+import bN from "../assets/images/bN.png";
+import bB from "../assets/images/bB.png";
+import bQ from "../assets/images/bQ.png";
+import bK from "../assets/images/bK.png";
 
 const pieceToImage: Record<string, string> = {
-  wP: "/images/wP.png",
-  wR: "/images/wR.png",
-  wN: "/images/wN.png",
-  wB: "/images/wB.png",
-  wQ: "/images/wQ.png",
-  wK: "/images/wK.png",
-  bP: "/images/bP.png",
-  bR: "/images/bR.png",
-  bN: "/images/bN.png",
-  bB: "/images/bB.png",
-  bQ: "/images/bQ.png",
-  bK: "/images/bK.png",
+  wP,
+  wR,
+  wN,
+  wB,
+  wQ,
+  wK,
+  bP,
+  bR,
+  bN,
+  bB,
+  bQ,
+  bK,
 };
 
 const customPieces: Record<
